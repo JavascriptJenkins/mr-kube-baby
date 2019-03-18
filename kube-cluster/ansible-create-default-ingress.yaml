@@ -1,0 +1,10 @@
+- hosts: master
+  become: yes
+  tasks:
+
+    - name: create default service ingress
+      become: yes
+      become_user: ubuntu
+      shell: sudo kubectl create -f /yamls/default-backend-deployment.yaml -f /yamls/default-backend-service.yaml -n=ingress
+      args:
+        chdir: $HOME
