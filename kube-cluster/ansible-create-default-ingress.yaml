@@ -5,6 +5,6 @@
     - name: create default service ingress
       become: yes
       become_user: ubuntu
-      shell: sudo kubectl create -f https://raw.githubusercontent.com/JavascriptJenkins/mr-kube-baby/master/kube-cluster/yamls/default-backend-deployment.yaml -f https://raw.githubusercontent.com/JavascriptJenkins/mr-kube-baby/master/kube-cluster/yamls/nginx-infra/default-backend-service.yaml -n=ingress
+      shell: sudo kubectl create -f https://raw.githubusercontent.com/JavascriptJenkins/mr-kube-baby/master/kube-cluster/yamls/nginx-infra/default-backend-deployment.yaml -f https://raw.githubusercontent.com/JavascriptJenkins/mr-kube-baby/master/kube-cluster/yamls/nginx-infra/default-backend-service.yaml -n=ingress
       args:
         chdir: $HOME
