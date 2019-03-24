@@ -9,6 +9,9 @@ spec:
       labels:
         app: my-sql
     spec:
+      selector:
+        matchLabels:
+          app: my-sql
       terminationGracePeriodSeconds: 60
       containers:
       - name: mysql
