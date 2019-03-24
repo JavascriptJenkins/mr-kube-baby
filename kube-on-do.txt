@@ -1,0 +1,53 @@
+kubernetes with digital ocean servers
+
+
+https://www.digitalocean.com/community/tutorials/how-to-create-a-kubernetes-1-11-cluster-using-kubeadm-on-ubuntu-18-04
+
+
+1) ---> install ansible
+
+2) create the yaml ansible play and create hosts file.
+
+3) Make non root user with sudo no password priveldges:
+RUN ---> ansible-playbook -i hosts ~/kube-cluster/initial.yml
+
+ 4) install kubernetes dependencies
+
+
+ISSUES:
+
+This needs to be ran on all nodes:
+systemctl enable docker.service
+
+
+This needs to be ran with all cluster init commands, along with sudo
+--ignore-preflight-errors
+
+This also needs to be ran to load all kernel modules for networking kubernetes:
+sudo modprobe -- ip_vs ip_vs_rr ip_vs_wrr ip_vs_sh
+sudo modprobe -- ip_vs support
+
+ sudo kubeadm join 198.211.99.50:6443 --ignore-preflight-errors all --token xxxxxx --discovery-token-ca-cert-hash xxxxxxx >> node_joined.txt
+
+
+ CREATE INGRESS CONTROLLER BELOW:
+
+TO RUN ANSIBLE PLAYBOOKS PASTE THE BELOW LINE IN FRONT OF A PLAYBOOK YAML
+ ------>>>>>>>   ansible-playbook -i hosts
+
+ ansible-playbook -i hosts ansible-nginx-controller-deployment.yaml
+
+ ansible-playbook -i hosts ansible-create-nginx-lb-cfgmap.yaml
+
+ ansible-playbook -i hosts ansible-create-default-ingress.yaml
+ ansible-playbook -i hosts ansible-nginx-controller-roles.yaml
+ ansible-playbook -i hosts /Users/genreboy/IdeaProjects/mr-kube-baby/kube-cluster/ansible/mysql/ansible-mysql-deployment.yaml
+
+ kubectl create namespace ingress
+
+ kubectl create -f default-backend-deployment.yaml -f default-backend-service.yaml -n=ingress
+
+ kubectl create -f nginx-ingress-controller-deployment.yaml -n=ingress
+
+
+
