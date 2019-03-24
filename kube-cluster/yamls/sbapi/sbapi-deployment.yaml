@@ -15,7 +15,7 @@ spec:
       terminationGracePeriodSeconds: 60
       containers:
       - name: mysql
-        image: javascriptjenkins:sbapi
+        image: javascriptjenkins/sbapi:latest
         ports:
         - containerPort: 3306
         env:
