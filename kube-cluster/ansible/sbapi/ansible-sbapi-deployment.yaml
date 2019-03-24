@@ -1,0 +1,10 @@
+- hosts: master
+  become: yes
+  tasks:
+
+    - name: create mysql persistent volume and pv claim
+      become: yes
+      become_user: ubuntu
+      shell: sudo kubectl create -f https://raw.githubusercontent.com/JavascriptJenkins/mr-kube-baby/master/kube-cluster/yamls/sbapi/sbapi-deployment.yaml -n=ingress
+      args:
+        chdir: $HOME
