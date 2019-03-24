@@ -1,17 +1,17 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: my-sql
 spec:
   replicas: 2
+  selector:
+    matchLabels:
+      app: my-sql
   template:
     metadata:
       labels:
         app: my-sql
     spec:
-      selector:
-        matchLabels:
-          app: my-sql
       terminationGracePeriodSeconds: 60
       containers:
       - name: mysql
