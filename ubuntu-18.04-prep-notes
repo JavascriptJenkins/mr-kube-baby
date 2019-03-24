@@ -32,7 +32,24 @@ sudo modprobe -- ip_vs support
 sudo kubeadm join <kubemasterip>:6443 --ignore-preflight-errors all --token xxxxx --discovery-token-ca-cert-hash sha256:xxxxxxxx >> node_joined.txt
 
 
-
+KUBERNETES NGINX INGRESS CONTROLLER:
+https://akomljen.com/kubernetes-nginx-ingress-controller/
 
 TO RUN ANSIBLE PLAYBOOKS PASTE THE BELOW LINE IN FRONT OF A PLAYBOOK YAML
  ------>>>>>>>   ansible-playbook -i hosts
+
+// create the service and deployment in ingress namespace
+ansible-playbook -i hosts ansible-create-default-ingress.yaml
+
+// ssh into master node and validate
+kubectl get services -n=ingress
+kubectl get deployments -n=ingress
+
+// create nginx loadbalancer
+kubectl create -f https://raw.githubusercontent.com/JavascriptJenkins/mr-kube-baby/master/kube-cluster/yamls/nginx-ingress-controller-config-map.yaml -n=ingress
+
+sudo kubectl create -f https://raw.githubusercontent.com/JavascriptJenkins/mr-kube-baby/master/kube-cluster/yamls/nginx-ingress-controller-config-map.yaml -n=ingress
+
+
+MONITOR KUBERNETES COMMAND LINE
+
