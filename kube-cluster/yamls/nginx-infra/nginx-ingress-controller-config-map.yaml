@@ -3,6 +3,6 @@ kind: ConfigMap
 metadata:
   name: nginx-ingress-controller-conf
   labels:
-    app: nginx-ingress-lb
+    app: default-backend
 data:
   enable-vts-status: 'true'
