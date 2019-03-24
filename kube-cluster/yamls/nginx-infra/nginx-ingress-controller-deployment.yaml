@@ -10,11 +10,11 @@ spec:
       labels:
         app: default-backend
     spec:
-      selector:
-        app: default-backend
       terminationGracePeriodSeconds: 60
       serviceAccount: nginx
       containers:
+        selector:
+          app: default-backend
         - name: nginx-ingress-controller
           image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.9.0
           imagePullPolicy: Always
