@@ -21,6 +21,7 @@ rules:
   - watch
   - get
   - create
+  - update
 - apiGroups:
   - ""
   resources:
