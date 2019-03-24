@@ -25,3 +25,10 @@ spec:
           requests:
             cpu: 200m
             memory: 256Mi
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim
