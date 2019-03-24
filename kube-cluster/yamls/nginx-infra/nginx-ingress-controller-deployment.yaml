@@ -10,6 +10,8 @@ spec:
       labels:
         app: default-backend
     spec:
+      selector:
+        app: default-backend
       terminationGracePeriodSeconds: 60
       serviceAccount: nginx
       containers:
