@@ -9,6 +9,13 @@
       args:
         chdir: $HOME
 
+    - name: create mysql service
+      become: yes
+      become_user: ubuntu
+      shell: sudo kubectl create -f https://raw.githubusercontent.com/JavascriptJenkins/mr-kube-baby/master/kube-cluster/yamls/mysql/mysql-service.yaml -n=ingress
+      args:
+        chdir: $HOME
+
     - name: create mysql deployment
       become: yes
       become_user: ubuntu
