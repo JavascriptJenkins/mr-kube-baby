@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sbapi
+  name: sbscrape
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sbapi
+      app: sbscrape
   template:
     metadata:
       labels:
-        app: sbapi
+        app: sbscrape
     spec:
       terminationGracePeriodSeconds: 60
       containers:
-      - name: mysql
-        image: javascriptjenkins/sbapi:latest
+      - name: sbscrape
+        image: javascriptjenkins/sb-scrape:latest
         ports:
         - containerPort: 3306
         env:
@@ -23,6 +23,8 @@ spec:
             value: my-sql
           - name: MYSQL_PASS
             value: my-secret-pw
+          - name: RUN_HEADLESS
+            value: true
         resources:
           limits:
             cpu: 200m
