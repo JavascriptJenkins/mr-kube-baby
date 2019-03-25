@@ -41,7 +41,12 @@ TO RUN ANSIBLE PLAYBOOKS PASTE THE BELOW LINE IN FRONT OF A PLAYBOOK YAML
 
  ansible-playbook -i hosts ansible-create-default-ingress.yaml
  ansible-playbook -i hosts ansible-nginx-controller-roles.yaml
- ansible-playbook -i hosts /Users/genreboy/IdeaProjects/mr-kube-baby/kube-cluster/ansible/mysql/ansible-mysql-deployment.yaml
+ ansible-playbook -i hosts /Users/genreboy/IdeaProjects/mr-kube-baby/kube-cluster/ansible/sbscrape/ansible-sb-scrape-deployment.yaml
+ ansible-playbook -i hosts /Users/genreboy/IdeaProjects/sb-scrape/ansible-sb-scrape-deployment.yaml
+
+
+ ansible-playbook -i hosts /Users/genreboy/IdeaProjects/mr-kube-baby/kube-cluster/ansible/sbapi/ansible-sbapi-deployment.yaml
+ ansible-playbook -i hosts /Users/genreboy/IdeaProjects/mr-kube-baby/kube-cluster/ansible/selenium/ansible-selenium-deployment.yaml
 
  kubectl create namespace ingress
 
