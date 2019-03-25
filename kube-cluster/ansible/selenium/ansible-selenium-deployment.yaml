@@ -1,0 +1,24 @@
+- hosts: master
+  become: yes
+  tasks:
+
+    - name: create selenium hub
+      become: yes
+      become_user: ubuntu
+      shell: sudo kubectl create -f https://raw.githubusercontent.com/JavascriptJenkins/mr-kube-baby/master/kube-cluster/yamls/selenium/selenium-deployment.yaml -n=ingress
+      args:
+        chdir: $HOME
+
+    - name: create service for selenium hub
+      become: yes
+      become_user: ubuntu
+      shell: sudo kubectl create -f https://raw.githubusercontent.com/JavascriptJenkins/mr-kube-baby/master/kube-cluster/yamls/selenium/selenium-svc.yaml -n=ingress
+      args:
+        chdir: $HOME
+
+    - name: create selenium chrome worker node
+      become: yes
+      become_user: ubuntu
+      shell: sudo kubectl create -f https://raw.githubusercontent.com/JavascriptJenkins/mr-kube-baby/master/kube-cluster/yamls/selenium/chrome-node-deployment.yaml -n=ingress
+      args:
+        chdir: $HOME
