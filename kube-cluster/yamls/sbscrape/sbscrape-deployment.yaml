@@ -24,7 +24,7 @@ spec:
           - name: MYSQL_PASS
             value: my-secret-pw
           - name: RUN_HEADLESS
-            value: true
+            value: 'true'
         resources:
           limits:
             cpu: 200m
