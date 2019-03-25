@@ -7,3 +7,5 @@ worker2 ansible_host=178.62.234.231 ansible_user=root
 
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
+pythonpath=/usr/local/lib/python2.7/site-packages
+localhost ansible_connection=local
