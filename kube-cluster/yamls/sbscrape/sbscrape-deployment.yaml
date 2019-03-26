@@ -23,6 +23,8 @@ spec:
             value: my-sql
           - name: MYSQL_PASS
             value: my-secret-pw
+          - name: MYSQL_DDL_AUTO
+            value: update
           - name: RUN_HEADLESS
             value: 'true'
         resources:
