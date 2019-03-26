@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kibana
+  template:
+    metadata:
+      labels:
+        app: kibana
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name: kibana
+        image: kibana:6.6.1
+        ports:
+        - containerPort: 3306
+        env:
+          - name: ELASTICSEARCH_URL
+            value: 'ipaddress'
+        resources:
+          limits:
+            cpu: 800m
+            memory: 1000Mi
+          requests:
+            cpu: 200m
+            memory: 512Mi
+        volumeMounts:
+        - name: applogs-persistent-storage
+          mountPath: /logs
+      volumes:
+      - name: applogs-persistent-storage
+        persistentVolumeClaim:
+          claimName: applogs-pv-claim
