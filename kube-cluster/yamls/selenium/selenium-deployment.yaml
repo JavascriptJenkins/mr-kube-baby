@@ -19,6 +19,9 @@ spec:
         image: selenium/hub:3.141.59
         ports:
           - containerPort: 4444
+        env:
+          - name: GRID_BROWSER_TIMEOUT
+            value: "30000"
         resources:
           limits:
             memory: "1000Mi"
