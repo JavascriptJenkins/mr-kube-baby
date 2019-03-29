@@ -24,17 +24,20 @@ spec:
             value: "30000"
         resources:
           limits:
-            memory: "1000Mi"
-            cpu: ".5"
-        livenessProbe:
-          httpGet:
-            path: /wd/hub/status
-            port: 4444
-          initialDelaySeconds: 30
-          timeoutSeconds: 5
-        readinessProbe:
-          httpGet:
-            path: /wd/hub/status
-            port: 4444
-          initialDelaySeconds: 30
-          timeoutSeconds: 5
+            cpu: 1000m
+            memory: 1000Mi
+          requests:
+            cpu: 400m
+            memory: 512Mi
+#        livenessProbe:
+#          httpGet:
+#            path: /wd/hub/status
+#            port: 4444
+#          initialDelaySeconds: 30
+#          timeoutSeconds: 5
+#        readinessProbe:
+#          httpGet:
+#            path: /wd/hub/status
+#            port: 4444
+#          initialDelaySeconds: 30
+#          timeoutSeconds: 5
