@@ -27,6 +27,8 @@ spec:
             value: update
           - name: RUN_HEADLESS
             value: 'true'
+          - name: HYDRATE_INIT_DATA
+            value: 'false'
         resources:
           limits:
             cpu: 1000m
