@@ -23,8 +23,8 @@ spec:
             value: my-secret-pw
         resources:
           limits:
-            cpu: 200m
-            memory: 512Mi
+            cpu: 800m
+            memory: 1000Mi
           requests:
             cpu: 200m
             memory: 256Mi
