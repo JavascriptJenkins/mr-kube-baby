@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: es-master
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: es-master
+  template:
+    metadata:
+      labels:
+        app: es-master
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name: mysql
+        image: docker.elastic.co/elasticsearch/elasticsearch:6.6.1
+        ports:
+        - containerPort: 9200
+          name: http
+          protocol: TCP
+        - containerPort: 9300
+          name: transport
+          protocol: TCP
+        env:
+          - name: CLUSTER_NAME
+            value: 'sport-vvs-log-cluster'
+          - name: NODE_MASTER
+            value: 'true'
+          - name: NODE_DATA
+            value: 'false'
+          - name: DISCOVERY_TYPE
+            value: 'zen'
+          - name: NETWORK_HOST
+            value: '0.0.0.0'
+#          - name: ES_JAVA_OPTS
+#            value: '-Xms256m -Xmx256m'
+#          - name: ES_HEAP_SIZE
+#            value: '128m'
+          - name: MAX_OPEN_FILES
+            value: '65535'
+          - name: MAX_LOCKED_MEMORY
+            value: 'unlimited'
+          - name: XPACK_SECURITY_ENABLED
+            value: 'false'
+          - name: XPACK_WATCHER_ENABLED
+            value: 'false'
+          - name: XPACK_GRAPH_ENABLED
+            value: 'false'
+          - name: XPACK_MONITORING_ENABLED
+            value: 'false'
+        resources:
+          limits:
+            cpu: 500m
+            memory: 1000Mi
+          requests:
+            cpu: 200m
+            memory: 512Mi
