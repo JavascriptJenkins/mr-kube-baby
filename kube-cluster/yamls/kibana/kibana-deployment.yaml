@@ -20,7 +20,7 @@ spec:
         - containerPort: 3306
         env:
           - name: ELASTICSEARCH_URL
-            value: 'ipaddress'
+            value: 'elasticsearch:9200'
         resources:
           limits:
             cpu: 800m
