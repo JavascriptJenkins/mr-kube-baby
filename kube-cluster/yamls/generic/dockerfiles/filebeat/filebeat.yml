@@ -1,0 +1,23 @@
+filebeat.prospectors:
+
+## where logs will be shipped from
+- type: log
+
+## reading logs from here
+  paths:
+  - "/logs/*.log"
+
+  fields:
+    mycustomfield: true
+
+    ## to drop fields
+#    processors:
+#    -  drop_fields:
+#      fields: ["myfield","field2"]
+
+output.elasticsearch:
+  hosts: ["elasticsearch:9200"]
+  protocol: "http"
+
+#output.logstash:
+#  hosts: ["logstash:5044"]

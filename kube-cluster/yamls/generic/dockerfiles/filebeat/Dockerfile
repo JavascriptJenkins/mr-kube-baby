@@ -1,6 +1,8 @@
-FROM openjdk:8-jdk-alpine
+FROM centos:latest
 
 ENV FILEBEAT_VERSION 5.6.9
+
+RUN yum upgrade -y&& yum install -y java-1.8.0-openjdk-devel curl iputils wget net-tools; yum clean headers; yum clean packages; yum clean metadata; yum clean all
 
 RUN wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-${FILEBEAT_VERSION}-linux-x86_64.tar.gz
 
@@ -8,17 +10,16 @@ RUN wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-${FILEBE
 RUN tar -zxf filebeat-${FILEBEAT_VERSION}-linux-x86_64.tar.gz
 
 ## Re name it
-RUN mv -f filebeat-${FILEBEAT_VERSION}-linux-x86_64.tar.gz filebeat
+RUN mv -f filebeat-${FILEBEAT_VERSION}-linux-x86_64 filebeat
 
-## write permissions
-RUN chmod -R ag+w+x filebeat
+## write permissions and remove existing yaml
+RUN chmod -R ag+w+x filebeat && rm -f filebeat/filebeat.yml
+
+## put in our custom yaml
+ADD ./filebeat.yml filebeat/filebeat.yml
 
 ## remove tar file
-RUN rm -f filebeat-${FILEBEAT_VERSION}-linux-x86_64.tar.gz
-
-## remove template and add custom one
-RUN rm -f filebeat/filebeat.yml
-ADD filebeat.yml filebeat/filebeat.yml
+RUN rm -rf filebeat-${FILEBEAT_VERSION}-linux-x86_64.tar.gz
 
 ## add custom script file
 ADD startApp.sh startApp.sh
