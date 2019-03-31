@@ -1,0 +1,31 @@
+- hosts: master
+  become: yes
+  tasks:
+
+    - name: delete existing es-master deployment
+      become: yes
+      become_user: ubuntu
+      shell: sudo kubectl delete deployment es-master -n=ingress
+      args:
+        chdir: $HOME
+
+    - name: delete existing es-master deployment
+      become: yes
+      become_user: ubuntu
+      shell: sudo kubectl delete deployment es-data -n=ingress
+      args:
+        chdir: $HOME
+
+    - name: create es-data node
+      become: yes
+      become_user: ubuntu
+      shell: sudo kubectl create -f https://raw.githubusercontent.com/JavascriptJenkins/mr-kube-baby/master/kube-cluster/yamls/elasticsearch/es-data-node.yaml -n=ingress
+      args:
+        chdir: $HOME
+
+    - name: create es-master node
+      become: yes
+      become_user: ubuntu
+      shell: sudo kubectl create -f https://raw.githubusercontent.com/JavascriptJenkins/mr-kube-baby/master/kube-cluster/yamls/elasticsearch/es-master-node.yaml -n=ingress
+      args:
+        chdir: $HOME
