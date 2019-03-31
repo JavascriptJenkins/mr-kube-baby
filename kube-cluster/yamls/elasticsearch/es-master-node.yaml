@@ -39,7 +39,7 @@ spec:
           - name: ES_HEAP_SIZE
             value: '256m'
           - name: MAX_OPEN_FILES
-            value: '65535'
+            value: '300000'
           - name: MAX_LOCKED_MEMORY
             value: 'unlimited'
           - name: XPACK_SECURITY_ENABLED
