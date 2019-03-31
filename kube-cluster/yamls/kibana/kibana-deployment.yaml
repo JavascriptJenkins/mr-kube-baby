@@ -17,7 +17,7 @@ spec:
       - name: kibana
         image: kibana:6.6.1
         ports:
-        - containerPort: 3306
+        - containerPort: 5601
         env:
           - name: ELASTICSEARCH_URL
             value: 'elasticsearch:9200'
@@ -28,10 +28,3 @@ spec:
           requests:
             cpu: 200m
             memory: 512Mi
-        volumeMounts:
-        - name: applogs-persistent-storage
-          mountPath: /logs
-      volumes:
-      - name: applogs-persistent-storage
-        persistentVolumeClaim:
-          claimName: applogs-pv-claim
