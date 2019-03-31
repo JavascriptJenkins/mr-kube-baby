@@ -31,10 +31,10 @@ spec:
             value: 'zen'
           - name: NETWORK_HOST
             value: '0.0.0.0'
-#          - name: ES_JAVA_OPTS
-#            value: '-Xms256m -Xmx256m'
-#          - name: ES_HEAP_SIZE
-#            value: '128m'
+          - name: ES_JAVA_OPTS
+            value: '-Xms256m -Xmx256m'
+          - name: ES_HEAP_SIZE
+            value: '128m'
           - name: MAX_OPEN_FILES
             value: '65535'
           - name: MAX_LOCKED_MEMORY
