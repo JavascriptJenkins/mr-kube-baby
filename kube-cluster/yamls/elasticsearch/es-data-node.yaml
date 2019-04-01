@@ -32,9 +32,9 @@ spec:
           - name: NETWORK_HOST
             value: '0.0.0.0'
           - name: ES_JAVA_OPTS
-            value: '-Xms512m -Xmx512m'
+            value: '-Xms1000m -Xmx1000m'
           - name: ES_HEAP_SIZE
-            value: '256m'
+            value: '512m'
           - name: MAX_OPEN_FILES
             value: '300000'
           - name: MAX_LOCKED_MEMORY
@@ -50,7 +50,15 @@ spec:
         resources:
           limits:
             cpu: 800m
-            memory: 1000Mi
+            memory: 1200Mi
           requests:
             cpu: 200m
             memory: 512Mi
+
+
+#May need this fix on some machines:
+#
+#vm.max_map_count=262144
+#in your /etc/sysctl.conf and run
+#
+#$ sudo sysctl -p

@@ -35,9 +35,9 @@ spec:
           - name: NETWORK_HOST
             value: '0.0.0.0'
           - name: ES_JAVA_OPTS
-            value: '-Xms512m -Xmx512m'
+            value: '-Xms1000m -Xmx1000m'
           - name: ES_HEAP_SIZE
-            value: '256m'
+            value: '512m'
           - name: MAX_OPEN_FILES
             value: '300000'
           - name: MAX_LOCKED_MEMORY
@@ -52,8 +52,8 @@ spec:
             value: 'false'
         resources:
           limits:
-            cpu: 500m
-            memory: 1000Mi
+            cpu: 800m
+            memory: 1200Mi
           requests:
             cpu: 200m
             memory: 512Mi
