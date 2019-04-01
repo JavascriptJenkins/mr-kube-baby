@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: es-data
+  name: es-master
 spec:
   replicas: 1
   selector:
@@ -55,6 +55,8 @@ spec:
             cpu: 200m
             memory: 1040Mi
 
+## This needs to be set on all hosts
+##  sudo sysctl -w vm.max_map_count=262144
 
 #May need this fix on some machines:
 #
