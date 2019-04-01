@@ -34,6 +34,11 @@
        name: kubeadm=1.11.7-00
        state: present
 
+  - name: add memory settings to fix elasticsearch installations
+    shell: sudo sysctl -w vm.max_map_count=262144
+
+    ## start the docker daemon after installing!
+
 - hosts: master
   become: yes
   tasks:
