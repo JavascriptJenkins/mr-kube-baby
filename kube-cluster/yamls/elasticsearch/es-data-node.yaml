@@ -50,10 +50,10 @@ spec:
         resources:
           limits:
             cpu: 800m
-            memory: 1200Mi
+            memory: 1240Mi
           requests:
             cpu: 200m
-            memory: 512Mi
+            memory: 1040Mi
 
 
 #May need this fix on some machines:
