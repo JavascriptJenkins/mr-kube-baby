@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: es-data
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: es-data
+  template:
+    metadata:
+      labels:
+        app: es-data
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name: es-data
+        image: docker.elastic.co/elasticsearch/elasticsearch:6.6.1
+        ports:
+        - containerPort: 9300
+          name: transport
+          protocol: TCP
+        env:
+          - name: CLUSTER_NAME
+            value: 'sport-vvs-log-cluster'
+          - name: NODE_MASTER
+            value: 'true'
+          - name: NODE_DATA
+            value: 'false'
+          - name: DISCOVERY_TYPE
+            value: 'zen'
+          - name: NETWORK_HOST
+            value: '0.0.0.0'
+          - name: ES_JAVA_OPTS
+            value: '-Xms1000m -Xmx1000m'
+          - name: ES_HEAP_SIZE
+            value: '512m'
+          - name: MAX_OPEN_FILES
+            value: '300000'
+          - name: MAX_LOCKED_MEMORY
+            value: 'unlimited'
+          - name: XPACK_SECURITY_ENABLED
+            value: 'false'
+          - name: XPACK_WATCHER_ENABLED
+            value: 'false'
+          - name: XPACK_GRAPH_ENABLED
+            value: 'false'
+          - name: XPACK_MONITORING_ENABLED
+            value: 'false'
+        resources:
+          limits:
+            cpu: 800m
+            memory: 1240Mi
+          requests:
+            cpu: 200m
+            memory: 1040Mi
+
+## This needs to be set on all hosts
+##  sudo sysctl -w vm.max_map_count=262144
+
+#May need this fix on some machines:
+#
+#vm.max_map_count=262144
+#in your /etc/sysctl.conf and run
+#
+#$ sudo sysctl -p
