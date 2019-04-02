@@ -12,18 +12,18 @@ RUN tar -zxf filebeat-${FILEBEAT_VERSION}-linux-x86_64.tar.gz
 ## Re name it
 RUN mv -f filebeat-${FILEBEAT_VERSION}-linux-x86_64 filebeat
 
+## remove tar file
+RUN rm -rf filebeat-${FILEBEAT_VERSION}-linux-x86_64.tar.gz
+
 ## write permissions and remove existing yaml
 RUN chmod -R ag+w+x filebeat && rm -f filebeat/filebeat.yml
 
 ## put in our custom yaml
 ADD ./filebeat.yml filebeat/filebeat.yml
 
-## remove tar file
-RUN rm -rf filebeat-${FILEBEAT_VERSION}-linux-x86_64.tar.gz
-
 ## add custom script file
 ADD startApp.sh startApp.sh
-RUN chmod +x ./startApp.sh
+RUN chmod ag+w+x ./startApp.sh
 
 ## make a dir that maps to persistent volume mount
 RUN mkdir /logs && chmod -R ag+w+x /logs

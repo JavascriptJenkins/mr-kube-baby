@@ -5,7 +5,7 @@ filebeat.prospectors:
 
 ## reading logs from here
   paths:
-  - "/logs/*.log"
+  - "/*.log"
 
   fields:
     mycustomfield: true
@@ -16,7 +16,7 @@ filebeat.prospectors:
 #      fields: ["myfield","field2"]
 
 output.elasticsearch:
-  hosts: ["elasticsearch:9200"]
+  hosts: ["es-master:9200"]
   protocol: "http"
 
 #output.logstash:
