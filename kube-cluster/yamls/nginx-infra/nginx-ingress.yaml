@@ -1,13 +1,14 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: nginx-ingress
+  name: mymasteringress
+  namespace: ingress-nginx
 spec:
   rules:
-  - host: 198.211.99.50
+  - host: sportvvs.com
     http:
       paths:
       - backend:
-          serviceName: nginx-ingress
+          serviceName: ingress-nginx
           servicePort: 18080
         path: /nginx_status
