@@ -70,4 +70,4 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: nginx
-  namespace: ingress
+  namespace: default
