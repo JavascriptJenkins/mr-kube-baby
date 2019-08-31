@@ -54,5 +54,6 @@ spec:
               fieldRef:
                 fieldPath: metadata.namespace
         args:
-        - /nginx-ingress-controller
-        - --default-backend-service=$(POD_NAMESPACE)/nginx-default-backend
+          - /nginx-ingress-controller
+          - --default-backend-service=$(POD_NAMESPACE)/nginx-default-backend
+        serviceAccountName: default
