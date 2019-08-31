@@ -2,7 +2,6 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: mysbapiingress
-  namespace: ingress-sbapi
 spec:
   rules:
   - host: sportvvs.com
