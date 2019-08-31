@@ -8,6 +8,6 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: sbapi-service
+          serviceName: sbapi
           servicePort: 80
         path: /
