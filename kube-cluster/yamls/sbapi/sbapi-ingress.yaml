@@ -4,10 +4,10 @@ metadata:
   name: mysbapiingress
 spec:
   rules:
-  - host: sportvvs.com
+  - host: www.sportvvs.com
     http:
       paths:
       - backend:
           serviceName: sbapi
-          servicePort: 8080
+          servicePort: 80
         path: /
