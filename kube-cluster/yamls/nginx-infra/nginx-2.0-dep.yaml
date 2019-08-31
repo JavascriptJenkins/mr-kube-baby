@@ -56,3 +56,6 @@ spec:
         args:
           - /nginx-ingress-controller
           - --default-backend-service=$(POD_NAMESPACE)/nginx-default-backend
+          
+          
+          ## kubectl create clusterrolebinding default-admin --clusterrole cluster-admin --serviceaccount=default:default
