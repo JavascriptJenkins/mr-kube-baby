@@ -9,5 +9,5 @@ spec:
       paths:
       - backend:
           serviceName: sbapi
-          servicePort: 80
+          servicePort: 8080
         path: /
