@@ -29,6 +29,7 @@ spec:
       containers:
       - image: gcr.io/google_containers/nginx-ingress-controller:0.8.3
         name: ingress-nginx
+        serviceAccountName: default
         imagePullPolicy: Always
         ports:
           - name: http
@@ -56,4 +57,3 @@ spec:
         args:
           - /nginx-ingress-controller
           - --default-backend-service=$(POD_NAMESPACE)/nginx-default-backend
-        serviceAccountName: default
