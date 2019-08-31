@@ -11,3 +11,5 @@ spec:
           serviceName: sbapi
           servicePort: 80
         path: /
+
+#Here is where things seem to get confusing, though. Ingress on it’s own does not really do anything. You need something to listen to the Kubernetes API for Ingress resources and then handle requests that match them. This is where the second piece to the puzzle comes in — the Ingress Controller.
