@@ -1,0 +1,35 @@
+FROM centos:latest
+
+## docker build /Users/genreboy/IdeaProjects/sf-angular/ --build-arg GIT_USER=javascriptjenkins --build-arg GIT_PASS=Javascript1$ --build-arg GIT_BRANCH=dev
+ARG GIT_USER
+ARG GIT_PASS
+ARG GIT_BRANCH
+
+## expose default port for angular
+EXPOSE 4200
+
+## get dependencies
+RUN yum upgrade -y&& yum install -y java-1.8.0-openjdk-devel curl iputils wget net-tools git yarn epel-release; yum clean headers; yum clean packages; yum clean metadata; yum clean all
+
+## install nodejs and nvm seperatly after the epel-release package repo access is installed above
+RUN yum install -y nodejs; yum clean headers; yum clean packages; yum clean metadata; yum clean all;
+
+### install nvm so we can update npm to the latest version so it will jive nicely with angular 7.3 cli in next step
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash && export NVM_DIR="/root/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && nvm --version && nvm install --lts && nvm use 10.16.3;
+
+RUN npm cache clean -f && npm install -g n && n stable
+
+## install the angular command line tool
+RUN npm install -g @angular/cli@7.3.0;
+
+## make a dir and get the code
+RUN mkdir /app && cd /app && git init && git clone https://$GIT_USER:$GIT_PASS@github.com/JavascriptJenkins/sf-angular;
+
+## do npm build
+RUN ls -la && cd app/sf-angular && ls -la && cd main && npm install;
+
+## change to non root user
+USER 1001
+
+## serve the application/compile the angular code
+CMD cd /app/sf-angular/main && ng serve;
