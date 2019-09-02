@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sf-angular-np
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      name: tcp-80
+      protocol: TCP
+      targetPort: 4200
+  selector:
+    app: sf-angular
+    matchLabels:
+      app: sf-angular
