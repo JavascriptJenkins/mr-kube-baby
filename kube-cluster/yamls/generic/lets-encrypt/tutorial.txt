@@ -1,0 +1,9 @@
+
+## kill all nginx processes
+kill $(ps aux | grep '[n]ginx' | awk '{print $2}')
+
+## get the certs!
+sudo certbot certonly --nginx
+
+## test nginx conf file
+nginx -c /etc/nginx/nginx.conf -t
