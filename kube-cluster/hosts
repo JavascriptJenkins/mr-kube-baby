@@ -1,11 +1,14 @@
 [masters]
-master ansible_host=198.211.99.50 ansible_user=root
+master ansible_host=167.99.109.153 ansible_user=ubuntu
 
 [workers]
-worker1 ansible_host=134.209.13.0 ansible_user=root
-worker2 ansible_host=178.62.234.231 ansible_user=root
+worker1 ansible_host=206.189.217.46 ansible_user=ubuntu
+worker2 ansible_host=167.99.168.227 ansible_user=ubuntu
 
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
 pythonpath=/usr/local/lib/python2.7/site-packages
-localhost ansible_connection=local
+#localhost ansible_connection=local
+ansible_password=vagrant
+scp_if_ssh=True
+ansible_ssh_user=ubuntu

@@ -1,7 +1,35 @@
 https://computingforgeeks.com/deploy-kubernetes-cluster-on-ubuntu-with-kubeadm/
 
+// run this on servers to update them
+sudo apt update
+sudo apt -y upgrade && sudo systemctl reboot
+
+// this is how to ssh into something
+ssh ubuntu@167.99.109.153
+
+// cd into this git project, then edit the hosts file with new ips
+
+// ssh into each new server as root to avoid any ssh issues with first ansible commands
+ssh root@167.99.109.153
+
+// run this to make non root user with passwordless sudo
+ansible-playbook -i hosts ~/kube-cluster/initial.yml
+
+// now we have 3 servers with usernames of ubuntu
+
+// need to have this installed on mac to use ansible properly
+brew install hudochenkov/sshpass/sshpass
+
+// NOTE - ssh is behaving incorrectly.  i am updating it to use a password to do ssh to trick it into working
+// adding -t to ssh logins seems to make it work??
 
 
+// Upgrade ansible
+sudo pip install ansible --upgrade
+
+// uninstall something on brew
+brew uninstall pyparsing --force
 
 
-
+// now saying fuck it, will run ansible from node inside digital ocean
+sudo apt install ansible

@@ -53,3 +53,6 @@ sudo kubectl create -f https://raw.githubusercontent.com/JavascriptJenkins/mr-ku
 
 MONITOR KUBERNETES COMMAND LINE
 
+
+
+kubectl scale deployment sbscrape --replicas=0 -n=ingress
