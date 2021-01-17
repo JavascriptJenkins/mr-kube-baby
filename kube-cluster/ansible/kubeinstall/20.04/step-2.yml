@@ -1,0 +1,6 @@
+- hosts: all
+  become: yes
+#  gather_facts: no
+  tasks:
+    - name: update ubuntu packages
+      shell: sudo apt update && sudo apt -y upgrade && sudo systemctl reboot
