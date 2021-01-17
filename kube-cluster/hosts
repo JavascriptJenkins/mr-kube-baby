@@ -9,6 +9,6 @@ worker2 ansible_host=167.99.168.227 ansible_user=ubuntu
 ansible_python_interpreter=/usr/bin/python3
 pythonpath=/usr/local/lib/python2.7/site-packages
 #localhost ansible_connection=local
-ansible_password=vagrant
+#ansible_password=vagrant
 scp_if_ssh=True
 ansible_ssh_user=ubuntu
