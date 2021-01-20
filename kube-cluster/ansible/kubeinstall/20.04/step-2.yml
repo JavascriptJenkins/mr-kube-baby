@@ -2,5 +2,208 @@
   become: yes
 #  gather_facts: no
   tasks:
-    - name: update ubuntu packages
-      shell: sudo apt update && sudo apt -y upgrade && sudo systemctl reboot
+#    - name: update ubuntu packages
+#      shell: sudo apt update
+
+#    - name: step 3
+#      shell: sudo apt update &&
+#             sudo apt -y install curl apt-transport-https &&
+#             curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - &&
+#             echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+#    - name: step 4
+#      shell: sudo apt update &&
+#             sudo apt -y install vim git curl wget kubelet kubeadm kubectl &&
+#             sudo apt-mark hold kubelet kubeadm kubectl
+#
+#    - name: step 5
+#      shell: kubectl version --client && kubeadm version
+#
+#    - name: step 6
+#      shell: sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab &&
+#             sudo swapoff -a
+#
+#    - name: step 7
+#      shell: sudo modprobe overlay &&
+#             sudo modprobe br_netfilter
+#
+#    - name: step 8
+#      shell: sudo tee /etc/sysctl.d/kubernetes.conf<<EOF
+#             net.bridge.bridge-nf-call-ip6tables = 1
+#             net.bridge.bridge-nf-call-iptables = 1
+#             net.ipv4.ip_forward = 1
+#             EOF
+#             && sudo sysctl --system
+
+
+#    - name: step 9
+#      shell: sudo apt update &&
+#             sudo apt install -y curl gnupg2 software-properties-common apt-transport-https ca-certificates &&
+#             curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - &&
+#             sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" &&
+#             sudo apt update &&
+#             sudo apt install -y containerd.io docker-ce docker-ce-cli
+
+
+#    - name: step 10
+#      shell: sudo mkdir -p /etc/systemd/system/docker.service.d
+
+# This step needs to be ran manually on servers
+#    - name: step 11
+#      shell: sudo tee /etc/docker/daemon.json <<EOF
+#            {
+#              "exec-opts": ["native.cgroupdriver=systemd"],
+#              "log-driver": "json-file",
+#              "log-opts": {
+#                "max-size": "100m"
+#              },
+#              "storage-driver": "overlay2"
+#            }
+#            EOF
+
+
+#    - name: step 12
+#      shell: sudo systemctl daemon-reload &&
+#             sudo systemctl restart docker &&
+#             sudo systemctl enable docker
+
+    - name: step 12
+      shell: sudo systemctl daemon-reload &&
+             sudo systemctl restart docker &&
+             sudo systemctl enable docker
+
+
+# May have to do this too:
+#To use the systemd cgroup driver, set plugins.cri.systemd_cgroup = true in /etc/containerd/config.toml. When using kubeadm, manually configure the cgroup driver for kubelet
+
+
+
+
+Step 5: Initialize master node
+Login to the server to be used as master and make sure that the br_netfilter module is loaded:
+
+$ lsmod | grep br_netfilter
+br_netfilter           22256  0
+bridge                151336  2 br_netfilter,ebtable_broute
+Enable kubelet service.
+
+sudo systemctl enable kubelet
+We now want to initialize the machine that will run the control plane components which includes etcd (the cluster database) and the API Server.
+
+sudo kubeadm config images pull
+
+These are the basic kubeadm init options that are used to bootstrap cluster.
+
+--control-plane-endpoint :  set the shared endpoint for all control-plane nodes. Can be DNS/IP
+--pod-network-cidr : Used to set a Pod network add-on CIDR
+--cri-socket : Use if have more than one container runtime to set runtime socket path
+--apiserver-advertise-address : Set advertise address for this particular control-plane node's API server
+
+
+Set cluster endpoint DNS name or add record to /etc/hosts file.
+
+$ sudo vim /etc/hosts
+172.29.20.5 k8s-cluster.techvvs.com
+
+Create cluster:
+
+#RUN WITH ONLY THE CIDR AND IT WILL INIT!!
+sudo kubeadm init \
+  --pod-network-cidr=192.168.0.0/16 \
+
+
+  --control-plane-endpoint=k8s-cluster.techvvs.com \
+  --/var/run/docker.sock
+
+Note: If 192.168.0.0/16 is already in use within your network you must select a different pod network CIDR, replacing 192.168.0.0/16 in the above command.
+
+Runtime	Path to Unix domain socket
+Docker	/var/run/docker.sock
+containerd	/run/containerd/containerd.sock
+CRI-O	/var/run/crio/crio.sock
+
+You can optionally pass Socket file for runtime and advertise address depending on your setup.
+
+
+## if timeout happens during init, reset master node
+1) Reset cluster
+
+sudo kubeadm reset
+rm -rf .kube/
+sudo rm -rf /etc/kubernetes/ &&
+sudo rm -rf /var/lib/kubelet/ &&
+sudo rm -rf /var/lib/etcd
+
+
+## This is needed and required for kubenernetes cluster to be in READY status
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Alternatively, if you are the root user, you can run:
+
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 161.35.186.38:6443 --token 7t2oyp.m7p4sptxrnfrj4dy \
+    --discovery-token-ca-cert-hash sha256:c63f4daf04e23f0307f051361da4ad0ac49c674108b0cc7fd8015ce8b5e914d7
+
+
+ubuntu@kube-m-1:~$ kubectl cluster-info
+Kubernetes control plane is running at https://161.35.186.38:6443
+KubeDNS is running at https://161.35.186.38:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+ubuntu@kube-m-1:~$
+
+
+Additional Master nodes can be added using the command in installation output:
+
+kubeadm join k8s-cluster.computingforgeeks.com:6443 --token sr4l2l.2kvot0pfalh5o4ik \
+    --discovery-token-ca-cert-hash sha256:c692fb047e15883b575bd6710779dc2c5af8073f7cab460abd181fd3ddb29a18 \
+    --control-plane
+
+
+    watch kubectl get pods --all-namespaces
+
+## confirm master node is ready before adding more nodes
+    kubectl get nodes -o wide
+
+
+    kubectl describe nodes
+
+
+    // this lets you run things on all nodes
+    kubectl taint nodes --all node-role.kubernetes.io/master-
+#
+#
+#
+#              sudo kubeadm init \
+#                --pod-network-cidr=192.168.0.0/16 \
+#                --control-plane-endpoint=k8s-cluster.techvvs.com
+#
+#
+#                // note  -- master server has been started - need to follow instructstions for workers now
+#                -- https://computingforgeeks.com/deploy-kubernetes-cluster-on-ubuntu-with-kubeadm/
+#
+#
+#                	[WARNING IsDockerSystemdCheck]: detected "cgroupfs" as the Docker cgroup driver. The recommended driver is "systemd". Please follow the guide at https://kubernetes.io/docs/setup/cri/
+#                	[WARNING SystemVerification]: this Docker version is not on the list of validated versions: 20.10.2. Latest validated version: 19.03
+#When using Docker, kubeadm will automatically detect the cgroup driver for the kubelet and set it in the /var/lib/kubelet/config.yaml file during runtime.
+
+
+
+Step 7: Add worker nodes
+With the control plane ready you can add worker nodes to the cluster for running scheduled workloads.
