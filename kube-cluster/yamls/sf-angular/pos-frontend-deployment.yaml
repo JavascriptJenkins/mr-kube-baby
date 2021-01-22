@@ -15,7 +15,7 @@ spec:
       terminationGracePeriodSeconds: 60
       containers:
       - name: pos-frontend
-        image: javascriptjenkins/pos-frontend:dev2
+        image: javascriptjenkins/pos-frontend:dev3
         ports:
         - containerPort: 80
         resources:
