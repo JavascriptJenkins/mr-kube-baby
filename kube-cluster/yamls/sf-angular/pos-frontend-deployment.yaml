@@ -4,6 +4,8 @@ metadata:
   name: pos-frontend
 spec:
   replicas: 1
+  selector:
+      app: pos-frontend
   template:
     metadata:
       labels:
@@ -14,7 +16,7 @@ spec:
       - name: pos-frontend
         image: javascriptjenkins/pos-frontend:latest
         ports:
-        - containerPort: 8080
+        - containerPort: 4200
         resources:
           limits:
             cpu: 1000m
