@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pos-frontend-np
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      name: tcp-80
+      protocol: TCP
+      targetPort: 4200
+  selector:
+    matchLabels:
+      app: pos-frontend
