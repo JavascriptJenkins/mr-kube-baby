@@ -16,6 +16,8 @@ spec:
       containers:
       - name: pos-backend
         image: javascriptjenkins/pos-backend:latest
+      imagePullSecrets:
+      - name: regcred
         ports:
         - containerPort: 3306
         env:
