@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pos-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pos-backend
+  template:
+    metadata:
+      labels:
+        app: pos-backend
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name: pos-backend
+        image: javascriptjenkins/pos-backend:latest
+        ports:
+        - containerPort: 3306
+        env:
+          - name: MYSQL_HOST
+            value: my-sql
+          - name: MYSQL_PASS
+            value: my-secret-pw
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+          requests:
+            cpu: 200m
+            memory: 256Mi
+        volumeMounts:
+        - name: applogs-persistent-storage
+          mountPath: /logs
+      volumes:
+      - name: applogs-persistent-storage
+        persistentVolumeClaim:
+          claimName: applogs-pv-claim
