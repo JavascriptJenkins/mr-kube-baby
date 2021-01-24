@@ -15,7 +15,7 @@ spec:
       terminationGracePeriodSeconds: 60
       containers:
       - name: pos-backend
-        image: javascriptjenkins/pos-backend:dev3
+        image: javascriptjenkins/pos-backend:dev4
         ports:
         - containerPort: 3306
         env:
